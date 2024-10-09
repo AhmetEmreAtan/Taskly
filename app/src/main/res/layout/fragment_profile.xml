@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/profileImage_ImageButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/usericon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/profileUserName_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Ahmet Emre Atan"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="@+id/profileImage_ImageButton"
+            app:layout_constraintStart_toStartOf="@+id/profileImage_ImageButton"
+            app:layout_constraintTop_toBottomOf="@+id/profileImage_ImageButton" />
+
+        <TextView
+            android:id="@+id/toDoTitle_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="24dp"
+            android:text="To Do"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileUserName_textview" />
+
+        <TextView
+            android:id="@+id/notesTitle_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="Notes"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/teamTitle_textview"
+            app:layout_constraintStart_toEndOf="@+id/toDoTitle_textview"
+            app:layout_constraintTop_toBottomOf="@+id/profileUserName_textview" />
+
+        <TextView
+            android:id="@+id/teamTitle_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="32dp"
+            android:text="Team"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/profileUserName_textview" />
+
+        <TextView
+            android:id="@+id/toDopreview_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="19dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="0"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/toDoTitle_textview"
+            app:layout_constraintStart_toStartOf="@+id/toDoTitle_textview"
+            app:layout_constraintTop_toBottomOf="@+id/toDoTitle_textview" />
+
+        <TextView
+            android:id="@+id/notespreview_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="0"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/notesTitle_textview"
+            app:layout_constraintStart_toStartOf="@+id/notesTitle_textview"
+            app:layout_constraintTop_toBottomOf="@+id/notesTitle_textview" />
+
+        <TextView
+            android:id="@+id/teamspreview_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="0"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="@+id/teamTitle_textview"
+            app:layout_constraintStart_toStartOf="@+id/teamTitle_textview"
+            app:layout_constraintTop_toBottomOf="@+id/teamTitle_textview" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
