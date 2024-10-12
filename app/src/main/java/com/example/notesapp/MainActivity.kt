@@ -130,7 +130,7 @@ class MainActivity : AppCompatActivity() {
 
         fabNewTodo.apply {
             visibility = View.VISIBLE
-            animate().alpha(1f).translationY(-resources.getDimension(R.dimen.fab_margin_1)).setDuration(200).start()
+            animate().alpha(1f).translationX(resources.getDimension(R.dimen.fab_margin_1)).setDuration(200).start()
         }
         fabNewNote.apply {
             visibility = View.VISIBLE
@@ -138,9 +138,13 @@ class MainActivity : AppCompatActivity() {
         }
         fabNewTeam.apply {
             visibility = View.VISIBLE
-            animate().alpha(1f).translationY(-resources.getDimension(R.dimen.fab_margin_3)).setDuration(200).start()
+            animate().alpha(1f).translationX(resources.getDimension(R.dimen.fab_margin_3_x))
+            animate().translationY(resources.getDimension(R.dimen.fab_margin_3_y)).setDuration(200).start()
         }
     }
+
+
+
 
     private fun closeFabMenu(
         fabNewTodo: FloatingActionButton,

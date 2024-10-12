@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fab_margin_1">0dp</dimen>
-    <dimen name="fab_margin_2">0dp</dimen>
-    <dimen name="fab_margin_3">0dp</dimen>
+    <dimen name="fab_margin_1">-76dp</dimen>
+    <dimen name="fab_margin_2">100dp</dimen>
+    <dimen name="fab_margin_3_x">-0dp</dimen>
+    <dimen name="fab_margin_3_y">-100dp</dimen>
 </resources>

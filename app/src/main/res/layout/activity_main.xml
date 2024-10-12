@@ -31,19 +31,18 @@
             android:id="@+id/fab_new_todo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="100dp"
             android:contentDescription="New To Do"
             android:visibility="gone"
             android:src="@drawable/iconstodolist"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="24dp"
+            android:layout_marginRight="24dp"
             app:backgroundTint="@color/lightBlue" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab_new_note"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
             android:layout_marginEnd="24dp"
             android:src="@drawable/iconsnote"
             android:layout_gravity="bottom|end"
@@ -55,7 +54,6 @@
             android:id="@+id/fab_new_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
             android:layout_marginEnd="100dp"
             android:layout_gravity="bottom|end"
             android:src="@drawable/iconsteam"

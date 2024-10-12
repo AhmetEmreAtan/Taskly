@@ -41,7 +41,6 @@ android {
         viewBinding = true
     }
 }
-
 dependencies {
 
     implementation(libs.androidx.core.ktx)
@@ -74,4 +73,7 @@ dependencies {
     implementation (libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.fragment.ktx)
+
+    //Calendar
+    implementation ("com.applandeo:material-calendar-view:1.9.2")
 }
