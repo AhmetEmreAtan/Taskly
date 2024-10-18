@@ -11,10 +11,16 @@ data class Todo(
     var id: Int = 0,
     var title: String?,
     var notes: String?,
+    var deadline: String? = null,
+    val time: String? = null,
+    var taskDateType: String? = null,
     var isCompleted: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
+        parcel.readString(),
+        parcel.readString(),
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readByte() != 0.toByte()
@@ -24,6 +30,9 @@ data class Todo(
         parcel.writeInt(id)
         parcel.writeString(title)
         parcel.writeString(notes)
+        parcel.writeString(deadline)
+        parcel.writeString(time)
+        parcel.writeString(taskDateType)
         parcel.writeByte(if (isCompleted) 1 else 0)
     }
 

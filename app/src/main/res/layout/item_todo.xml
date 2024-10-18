@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="135dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_margin="8dp"
-    android:background="@color/white"
+
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@drawable/itemcardviewbackground">
 
         <ImageButton
             android:id="@+id/imageButton"
@@ -25,12 +26,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/todoDateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:text="03:00 PM"
+            android:text="02-02-2024"
             android:textColor="@android:color/darker_gray"
             android:textStyle="italic"
             app:layout_constraintBottom_toTopOf="@+id/titleTextView"
@@ -41,19 +42,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="32dp"
             android:text="Meeting: Ux Case"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/todo_alarmButton"
-            app:layout_constraintStart_toStartOf="@+id/textView"
+            app:layout_constraintStart_toStartOf="@+id/todoDateTextView"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/notesTextView"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="24dp"
             android:text="Discuss Milton website"
@@ -90,6 +91,19 @@
             app:layout_constraintBottom_toTopOf="@+id/imageButton"
             app:layout_constraintEnd_toEndOf="@+id/todo_alarmButton"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/todoTimeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="03:00 PM"
+            android:textColor="@android:color/darker_gray"
+            android:textStyle="italic"
+            app:layout_constraintEnd_toStartOf="@+id/todo_editButton"
+            app:layout_constraintStart_toEndOf="@+id/todoDateTextView"
+            app:layout_constraintTop_toTopOf="@+id/todoDateTextView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

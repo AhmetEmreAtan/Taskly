@@ -6,4 +6,6 @@
     <color name="lightBlue">#D2E0FB</color>
     <color name="yellow">#FEF9D9</color>
     <color name="yellowBlue">#DEE5D4</color>
+    <color name="selectedButton">#BC7C7C</color>
+    <color name="selectedText">#536493</color>
 </resources>

@@ -13,18 +13,17 @@ import kotlinx.coroutines.launch
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
 
+    private val repository: TodoRepository
 
-    private lateinit var repository: TodoRepository
-    val allTodos by lazy {
-        repository.getAllTodos().asLiveData()
-    }
+    val allTodos: LiveData<List<Todo>>
 
     init {
         val todoDao = TodoDatabase.getDatabase(application).todoDao()
         repository = TodoRepository(todoDao)
+        allTodos = repository.getAllTodos().asLiveData()
     }
 
-    fun insert(todo: Todo) = viewModelScope.launch {
+    fun insert(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(todo)
     }
 
@@ -32,14 +31,11 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         return repository.getTodoById(todoId)
     }
 
-    fun updateTodo(todo: Todo) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.update(todo)
-        }
+    fun updateTodo(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
+        repository.update(todo)
     }
 
-
-    fun delete(todo: Todo) = viewModelScope.launch {
+    fun delete(todo: Todo) = viewModelScope.launch(Dispatchers.IO) {
         repository.delete(todo)
     }
 }
