@@ -8,4 +8,6 @@
     <color name="yellowBlue">#DEE5D4</color>
     <color name="selectedButton">#BC7C7C</color>
     <color name="selectedText">#536493</color>
+    <color name="dark_purple">#624E88</color>
+    <color name="red_alert">#D91656</color>
 </resources>

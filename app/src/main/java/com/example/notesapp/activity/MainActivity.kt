@@ -1,4 +1,4 @@
-package com.example.notesapp
+package com.example.notesapp.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,10 +9,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import com.example.notesapp.R
 import com.example.notesapp.fragments.AboutUsFragment
 import com.example.notesapp.fragments.AddNewNoteFragment
 import com.example.notesapp.fragments.AddNewTeamFragment
 import com.example.notesapp.fragments.AddNewToDoFragment
+import com.example.notesapp.fragments.FocusFragment
 import com.example.notesapp.fragments.HomeFragment
 import com.example.notesapp.fragments.NotesFragment
 import com.example.notesapp.fragments.ProfileFragment
@@ -37,7 +39,10 @@ class MainActivity : AppCompatActivity() {
 
 
         drawerLayout = findViewById(R.id.myDrawer_layout)
-        actionBarDrawerToggle = ActionBarDrawerToggle(this,drawerLayout,R.string.nav_open,R.string.nav_close)
+        actionBarDrawerToggle = ActionBarDrawerToggle(this,drawerLayout,
+            R.string.nav_open,
+            R.string.nav_close
+        )
         drawerLayout.addDrawerListener(actionBarDrawerToggle)
         actionBarDrawerToggle.syncState()
         auth = FirebaseAuth.getInstance()
@@ -53,7 +58,6 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        //FloatinActionButton
         val mainFab = findViewById<FloatingActionButton>(R.id.floatingActionButton)
         val fabNewTodo = findViewById<FloatingActionButton>(R.id.fab_new_todo)
         val fabNewNote = findViewById<FloatingActionButton>(R.id.fab_new_note)
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity() {
             closeFabMenu(fabNewTodo, fabNewNote, fabNewTeam, mainFab)
         }
 
-        //Navigation View
+
         navigationView = findViewById(R.id.nav_view)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -95,6 +99,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.todo_nav_menu -> ToDoFragment()
                 R.id.notes_nav_menu -> NotesFragment()
                 R.id.team_nav_menu -> TeamFragment()
+                R.id.focus_nav_menu -> FocusFragment()
                 R.id.profile_nav_menu -> ProfileFragment()
                 R.id.settings_nav_menu -> SettingsFragment()
                 R.id.aboutUs_nav_menu -> AboutUsFragment()

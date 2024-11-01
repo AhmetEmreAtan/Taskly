@@ -14,7 +14,8 @@ data class Todo(
     var deadline: String? = null,
     val time: String? = null,
     var taskDateType: String? = null,
-    var isCompleted: Boolean = false
+    var isCompleted: Boolean = false,
+    var alarmTime: Long? = null
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readInt(),
@@ -23,7 +24,8 @@ data class Todo(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readByte() != 0.toByte()
+        parcel.readByte() != 0.toByte(),
+        parcel.readValue(Long::class.java.classLoader) as? Long
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -34,6 +36,7 @@ data class Todo(
         parcel.writeString(time)
         parcel.writeString(taskDateType)
         parcel.writeByte(if (isCompleted) 1 else 0)
+        parcel.writeValue(alarmTime)
     }
 
     override fun describeContents(): Int {

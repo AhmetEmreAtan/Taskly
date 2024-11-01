@@ -264,6 +264,18 @@
                         app:layout_constraintStart_toStartOf="@+id/timeText"
                         app:layout_constraintTop_toBottomOf="@+id/timeText" />
 
+                    <TextView
+                        android:id="@+id/alarmTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="00.00"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="@+id/alarmText"
+                        app:layout_constraintStart_toStartOf="@+id/alarmText"
+                        app:layout_constraintTop_toBottomOf="@+id/alarmText" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 

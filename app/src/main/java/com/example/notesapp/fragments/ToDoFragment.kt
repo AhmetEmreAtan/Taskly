@@ -2,7 +2,6 @@ package com.example.notesapp.fragments
 
 import android.graphics.Canvas
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.notesapp.MainActivity
+import com.example.notesapp.activity.MainActivity
 import com.example.notesapp.R
 import com.example.notesapp.adapter.CalendarAdapter
 import com.example.notesapp.adapter.TodoAdapter

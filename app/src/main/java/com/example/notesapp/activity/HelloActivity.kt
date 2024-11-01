@@ -1,9 +1,10 @@
-package com.example.notesapp
+package com.example.notesapp.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Button
+import com.example.notesapp.R
 
 class HelloActivity : AppCompatActivity() {
 

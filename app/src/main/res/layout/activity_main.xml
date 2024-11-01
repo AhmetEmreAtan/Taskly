@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:id="@+id/myDrawer_layout"
     android:background="@color/white"
-    tools:context=".MainActivity">
+    tools:context=".activity.MainActivity">
 
     <FrameLayout
         android:id="@+id/main_frameLayout"

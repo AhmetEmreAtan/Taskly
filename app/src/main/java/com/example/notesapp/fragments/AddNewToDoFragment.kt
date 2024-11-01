@@ -1,9 +1,19 @@
 package com.example.notesapp.fragments
 
+import android.app.AlarmManager
+import android.app.DatePickerDialog
+import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +24,7 @@ import androidx.fragment.app.viewModels
 import com.applandeo.materialcalendarview.CalendarView
 import com.applandeo.materialcalendarview.EventDay
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener
+import com.example.notesapp.AlarmReceiver
 import com.example.notesapp.R
 import com.example.notesapp.dataClass.Todo
 import com.example.notesapp.viewModel.TodoViewModel
@@ -28,10 +39,13 @@ class AddNewToDoFragment : Fragment() {
     private lateinit var selectedDateTextView: TextView
     private lateinit var calendarView: CalendarView
     private var selectedDate: String? = null
+    private var selectedTime: String? = null
     private lateinit var selectedTimeTextView: TextView
     private lateinit var todayButton: Button
     private lateinit var tomorrowButton: Button
     private lateinit var anotherDayButton: Button
+    private lateinit var alarmTimeTextView: TextView
+    private var selectedAlarmTime: Calendar? = null
     private var selectedDateType: String? = null
     private val todoViewModel: TodoViewModel by viewModels()
 
@@ -45,6 +59,7 @@ class AddNewToDoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        checkAndRequestNotificationPermission()
 
         subTitleEditText = view.findViewById(R.id.subTitleEditText)
         notesEditText = view.findViewById(R.id.notesEditText)
@@ -56,6 +71,11 @@ class AddNewToDoFragment : Fragment() {
         tomorrowButton = view.findViewById(R.id.tomorrowButton)
         anotherDayButton = view.findViewById(R.id.anotherDayButton)
 
+
+        alarmTimeTextView = view.findViewById(R.id.alarmTime)
+        alarmTimeTextView.setOnClickListener {
+            showDatePickerDialog()
+        }
 
         todayButton.setOnClickListener {
             setupClickListeners()
@@ -116,10 +136,10 @@ class AddNewToDoFragment : Fragment() {
     }
 
     private fun saveTask() {
-        val title = view?.findViewById<EditText>(R.id.subTitleEditText)?.text.toString().trim()
-        val notes = view?.findViewById<EditText>(R.id.notesEditText)?.text.toString().trim()
+        val title = subTitleEditText.text.toString().trim()
+        val notes = notesEditText.text.toString().trim()
         val deadline = selectedDate
-        val time = selectedTimeTextView.text.toString()
+        val alarmTime = selectedAlarmTime?.timeInMillis
 
         if (title.isEmpty()) {
             Toast.makeText(requireContext(), "Please enter a title", Toast.LENGTH_SHORT).show()
@@ -135,7 +155,8 @@ class AddNewToDoFragment : Fragment() {
             title = title,
             notes = notes,
             deadline = deadline,
-            time = time,
+            alarmTime = alarmTime,
+            time = selectedTimeTextView.text.toString(),
             taskDateType = selectedDateType
         )
 
@@ -143,8 +164,12 @@ class AddNewToDoFragment : Fragment() {
 
         Toast.makeText(requireContext(), "Task saved!", Toast.LENGTH_SHORT).show()
 
-        view?.findViewById<EditText>(R.id.subTitleEditText)?.text?.clear()
-        view?.findViewById<EditText>(R.id.notesEditText)?.text?.clear()
+        if (alarmTime != null) {
+            setAlarm(selectedAlarmTime!!, title)
+        }
+
+        subTitleEditText.text?.clear()
+        notesEditText.text?.clear()
         selectedTimeTextView.text = ""
 
         val homeFragment = HomeFragment()
@@ -153,7 +178,6 @@ class AddNewToDoFragment : Fragment() {
             .addToBackStack(null)
             .commit()
     }
-
 
 
     private fun showTimePickerDialog() {
@@ -194,6 +218,106 @@ class AddNewToDoFragment : Fragment() {
         todayButton.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.pastelBlue))
         tomorrowButton.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.lightBlue))
         anotherDayButton.setBackgroundTintList(ContextCompat.getColorStateList(requireContext(), R.color.yellowBlue))
+    }
+
+    private fun showDatePickerDialog() {
+        val calendar = Calendar.getInstance()
+        val datePicker = DatePickerDialog(
+            requireContext(),
+            { _, year, month, dayOfMonth ->
+                calendar.set(year, month, dayOfMonth)
+                showTimePickerDialog(calendar)
+            },
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+        datePicker.show()
+    }
+
+    private fun showTimePickerDialog(calendar: Calendar) {
+        val timePicker = TimePickerDialog(
+            requireContext(),
+            { _, hourOfDay, minute ->
+                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                calendar.set(Calendar.MINUTE, minute)
+                calendar.set(Calendar.SECOND, 0)
+                selectedAlarmTime = calendar
+
+
+                val formattedTime = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(calendar.time)
+                alarmTimeTextView.text = formattedTime
+            },
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        )
+        timePicker.show()
+    }
+
+    private fun checkAndRequestNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val sharedPreferences = requireContext().getSharedPreferences("AlarmPreferences", Context.MODE_PRIVATE)
+            val isPermissionGranted = sharedPreferences.getBoolean("isNotificationPermissionGranted", false)
+
+            Log.d("PermissionCheck", "Notification permission granted status: $isPermissionGranted")
+
+            if (isPermissionGranted) {
+                Log.d("PermissionCheck", "Notification permission already granted, no need to request.")
+                return
+            }
+
+            val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+            if (!notificationManager.areNotificationsEnabled()) {
+                Log.d("PermissionCheck", "Notification permission not granted, requesting permission...")
+                requestNotificationPermission()
+            } else {
+                Log.d("PermissionCheck", "Notification permission granted, saving to SharedPreferences.")
+                sharedPreferences.edit().putBoolean("isNotificationPermissionGranted", true).apply()
+            }
+        } else {
+            Log.d("PermissionCheck", "Notification permission check not needed for SDK version below TIRAMISU.")
+        }
+    }
+
+    private fun requestNotificationPermission() {
+        Log.d("PermissionRequest", "Requesting notification permission...")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 1001)
+        }
+    }
+
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        Log.d("PermissionResult", "Permission result received, requestCode: $requestCode")
+
+        if (requestCode == 1001) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("PermissionResult", "Notification permission granted, saving to SharedPreferences.")
+                val sharedPreferences = requireContext().getSharedPreferences("AlarmPreferences", Context.MODE_PRIVATE)
+                sharedPreferences.edit().putBoolean("isNotificationPermissionGranted", true).apply()
+                Toast.makeText(requireContext(), "Notification permission granted", Toast.LENGTH_SHORT).show()
+            } else {
+                Log.d("PermissionResult", "Notification permission denied.")
+                Toast.makeText(requireContext(), "Notification permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+
+
+    private fun setAlarm(calendar: Calendar, todoTitle: String) {
+        checkAndRequestNotificationPermission()
+
+        val alarmManager = requireContext().getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(requireContext(), AlarmReceiver::class.java)
+        intent.putExtra("todoTitle", todoTitle)  // Todo başlığını intent ile gönderiyoruz
+
+        val pendingIntent = PendingIntent.getBroadcast(requireContext(), 0, intent, PendingIntent.FLAG_IMMUTABLE)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
     }
 
 }

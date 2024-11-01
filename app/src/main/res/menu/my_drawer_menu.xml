@@ -22,6 +22,11 @@
         android:iconTint="@color/black"
         android:id="@+id/team_nav_menu"/>
     <item
+        android:title="Focus"
+        android:icon="@drawable/iconstime"
+        android:iconTint="@color/black"
+        android:id="@+id/focus_nav_menu"/>
+    <item
         android:title="Profile"
         android:icon="@drawable/iconscustomer"
         android:iconTint="@color/black"
